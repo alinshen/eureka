@@ -1,16 +1,10 @@
 buildscript {
-//    repositories { jcenter() }
-    repositories {
-        maven {
-            url 'http://maven.aliyun.com/nexus/content/groups/public/'
-        }
-    }
+    repositories { jcenter() }
 
     dependencies {
         classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:2.2.+'
     }
 }
-
 
 plugins {
     id 'nebula.netflixoss' version '3.6.0'
