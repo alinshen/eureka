@@ -42,8 +42,10 @@ import static org.mockito.Mockito.when;
  * Test REST layer of client/server communication. This test instantiates fully configured Jersey container,
  * which is essential to verifying content encoding/decoding with different format types (JSON vs XML, compressed vs
  * uncompressed).
- *
  * @author Tomasz Bak
+ * 本测试类可以将eureka注册中心启动起来，然后模拟eureka客户端（服务）去发送各种请求到eureka注册中心，
+ * 去测试这个功能
+ *
  */
 public class EurekaClientServerRestIntegrationTest {
 
@@ -231,8 +233,12 @@ public class EurekaClientServerRestIntegrationTest {
 
     }
 
+    /**
+     * 注释已有的方法内容，以方便可以debug调试
+     * @throws Exception
+     */
     private static void startServer() throws Exception {
-        File warFile = findWar();
+        /*File warFile = findWar();
 
         server = new Server(8080);
 
@@ -241,6 +247,17 @@ public class EurekaClientServerRestIntegrationTest {
         webapp.setWar(warFile.getAbsolutePath());
         server.setHandler(webapp);
 
+        server.start();
+
+        eurekaServiceUrl = "http://localhost:8080/v2";*/
+
+        server = new Server(8080);
+
+        WebAppContext webAppCtx = new WebAppContext(new File("./eureka-server/src/main/webapp").getAbsolutePath(), "/");
+        webAppCtx.setDescriptor(new File("./eureka-server/src/main/webapp/WEB-INF/web.xml").getAbsolutePath());
+        webAppCtx.setResourceBase(new File("./eureka-server/src/main/resources").getAbsolutePath());
+        webAppCtx.setClassLoader(Thread.currentThread().getContextClassLoader());
+        server.setHandler(webAppCtx);
         server.start();
 
         eurekaServiceUrl = "http://localhost:8080/v2";
